@@ -1,8 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 import * as ROLE from "../../constants/roles"
-import { Label, Table, Header, Segment, Image, Icon, Message, Input, Form, Dropdown } from 'semantic-ui-react';
+import { Label, Table, Header, Segment, Icon, Message, Input, Form, Dropdown } from 'semantic-ui-react';
 import { LanguageContext, FirebaseContext, UserContext } from '../../constants/contexts';
 import { useForm } from '../../tools/Hooks';
+import { UserAvatar } from '../user/UserAvatar';
 
 function UserRoles({ roles, edit, onChange }) {
   const language = useContext(LanguageContext);
@@ -14,7 +15,7 @@ function UserRoles({ roles, edit, onChange }) {
         onChange(event);
       }} options={
         Object.values(ROLE).filter(role => role !== ROLE.NONE).map(role => {
-          return { key: role, text: language.translate(`role${role}`, role), value: role }
+          return { key: role, text: language.translate(`role${role}`, role), value: role };
         })
       } />
     : (roles || []).map(role => <Label key={role}>{language.translate(`role${role}`, role)}</Label>);
@@ -104,7 +105,7 @@ export function Users() {
                   <Table.Row active={user.uid === item.uid} key={item.uid} onMouseOver={() => updateHover(item.uid, true)} onMouseOut={() => updateHover(item.uid, false)}>
                     <Table.Cell collapsing>
                       <Label ribbon>
-                        <Image avatar src={item?.avatar || ('https://eu.ui-avatars.com/api/?background=8b5d5d&bold=true&color=f0e9e9&name=' + item?.username)} />
+                        <UserAvatar uid={user.uid} avatar dark />
                         {editrow
                           ? <Input name='username' value={data.username} onChange={handleInputChange} />
                           : <>{item.username}</>}

@@ -1,29 +1,20 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import * as ROLE from "../../constants/roles";
 import * as catalog from "../../pages"
 import { Container } from 'semantic-ui-react'
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { UserContext } from '../../constants/contexts';
-
+import { useTimer } from '../../tools/Hooks';
 
 function AuthorizationWrapper({ condition, component }) {
-  const [redirect, setRedirect] = useState(false);
-  const user = useContext(UserContext)
-
-  useEffect(() => {
-    if (!redirect) {
-      const timer = setTimeout(() => {
-        setRedirect(true)
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [redirect])
+  const user = useContext(UserContext);
+  const redirect = useTimer(2000);
 
   return (condition ? component : (redirect ? <Redirect to={user?.authenticated ? catalog.Home.path : catalog.Landing.path} /> : <Container />));
 }
 
-function MainContent() {
-  const user = useContext(UserContext)
+export function MainContent() {
+  const user = useContext(UserContext);
 
   return (
     <Container style={{ padding: '2em 0em', minHeight: '80vh' }}>
@@ -37,5 +28,3 @@ function MainContent() {
     </Container>
   );
 }
-
-export default MainContent;

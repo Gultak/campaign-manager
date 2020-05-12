@@ -13,7 +13,6 @@ ReactDOM.render(
       <Viewport />
     </FirebaseContext.Provider>
   </Router>,
-
   document.getElementById('root')
 );
 

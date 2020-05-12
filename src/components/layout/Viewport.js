@@ -3,9 +3,9 @@ import * as ROLE from "../../constants/roles";
 import { LanguageContext, UserContext, FirebaseContext } from '../../constants/contexts'
 import { languages } from "../../lang/languages";
 
-import PageHeader from '../layout/PageHeader'
-import MainContent from '../layout/MainContent'
-import PageFooter from '../layout/PageFooter'
+import { ContentHeader } from '../layout/ContentHeader'
+import { MainContent } from '../layout/MainContent'
+import { ContentFooter } from '../layout/ContentFooter'
 
 const EMPTY_USER = {
   authUser: null,
@@ -15,7 +15,6 @@ const EMPTY_USER = {
 }
 
 function Viewport() {
-
   const [language, setLanguage] = useState({
     language: languages.default,
     switchLanguage: switchLanguage,
@@ -23,7 +22,7 @@ function Viewport() {
   });
 
   function switchLanguage(newLanguage) {
-    setLanguage({ ...language, language: newLanguage })
+    setLanguage({ ...language, language: newLanguage });
   }
 
   function translate(key, fallback) {
@@ -72,9 +71,9 @@ function Viewport() {
   return (
     <UserContext.Provider value={user}>
       <LanguageContext.Provider value={language}>
-        <PageHeader user={user} />
+        <ContentHeader user={user} />
         <MainContent />
-        <PageFooter />
+        <ContentFooter />
       </LanguageContext.Provider>
     </UserContext.Provider>
   );

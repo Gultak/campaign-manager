@@ -1,18 +1,14 @@
 import React, { useContext } from 'react';
+import * as items from "../components/characters";
 import * as ROLE from "../constants/roles"
-import { Header, Grid } from 'semantic-ui-react';
 import { LanguageContext } from '../constants/contexts';
+import { PageContent } from "../components/layout/PageContent";
 
 export function Campaigns() {
-  const language = useContext(LanguageContext)
+  const language = useContext(LanguageContext);
+  const title = language.translate('titleCampaigns', 'Campaigns');
 
-  return (
-    <Grid textAlign='center' verticalAlign='middle'>
-      <Grid.Column>
-        <Header as='h2'>{language.translate('titleCampaigns', 'Campaigns')}</Header>
-      </Grid.Column>
-    </Grid>
-  )
+  return (<PageContent title={title} items={items} />);
 }
 
 const Data = {

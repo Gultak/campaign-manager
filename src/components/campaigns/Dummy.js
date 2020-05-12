@@ -1,7 +1,7 @@
 import React from 'react';
 import { Segment } from 'semantic-ui-react';
 
-export function Details() {
+export function Dummy() {
 
   return (
     <Segment placeholder>
@@ -11,10 +11,11 @@ export function Details() {
 }
 
 const Data = {
-  id: 'details',
-  lang: 'profile-details',
-  name: 'Details',
-  comp: <Details />
+  id: 'dummy',
+  lang: 'profile-dummy',
+  name: 'Dummy',
+  comp: <Dummy />,
+  sort: 10
 };
 
 export default Data;

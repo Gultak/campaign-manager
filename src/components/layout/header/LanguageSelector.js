@@ -4,7 +4,7 @@ import { languages } from "../../../lang/languages";
 import { LanguageContext } from '../../../constants/contexts';
 
 export function LanguageSelector() {
-  const language = useContext(LanguageContext)
+  const language = useContext(LanguageContext);
 
   return (
     <Dropdown trigger={<Flag name={languages.items[language.language].flag} style={{ marginRight: '0.75em' }} />} icon={null} pointing='top right'>

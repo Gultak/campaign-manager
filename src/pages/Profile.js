@@ -1,21 +1,14 @@
 import React, { useContext } from 'react';
-import * as Items from "../components/profile"
-import * as ROLE from "../constants/roles"
+import * as items from "../components/profile";
+import * as ROLE from "../constants/roles";
 import { LanguageContext } from '../constants/contexts';
-import { Grid, Header } from 'semantic-ui-react';
-
+import { PageContent } from "../components/layout/PageContent";
 
 export function Profile() {
-  const language = useContext(LanguageContext)
+  const language = useContext(LanguageContext);
+  const title = language.translate('titleProfile', 'Profile');
 
-  return (
-    <Grid textAlign='center' verticalAlign='middle'>
-      <Grid.Column>
-        <Header as='h2'>{language.translate('titleProfile', 'Profile')}</Header>
-        {Object.values(Items).map(item => <React.Fragment key={item.id}>{item.comp}</React.Fragment>)}
-      </Grid.Column>
-    </Grid>
-  )
+  return (<PageContent title={title} items={items} />);
 }
 
 const Data = {

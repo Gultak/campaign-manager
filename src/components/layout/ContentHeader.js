@@ -9,15 +9,16 @@ import { LoginMenu } from './header/LoginMenu';
 import { LanguageSelector } from './header/LanguageSelector';
 
 
-function PageHeader() {
-  const [fixed, setFixed] = useState(false)
+export function ContentHeader() {
+  const [fixed, setFixed] = useState(false);
 
-  const history = useHistory()
-  const location = useLocation()
-  const language = useContext(LanguageContext)
-  const user = useContext(UserContext)
+  const history = useHistory();
+  const location = useLocation();
+  const language = useContext(LanguageContext);
+  const user = useContext(UserContext);
 
-  const menu = [...Object.values(catalog)].sort((a, b) => a.sort - b.sort).filter(item => item.menu && item.role !== ROLE.NONE && (user?.roles || []).includes(item.role));
+  const menu = [...Object.values(catalog)].sort((a, b) => a.sort - b.sort)
+    .filter(item => item.menu && item.role !== ROLE.NONE && (user?.roles || []).includes(item.role));
 
   return (
     <Visibility onBottomPassed={() => setFixed(true)} onBottomPassedReverse={() => setFixed(false)} once={false} catalog={catalog}>
@@ -34,5 +35,3 @@ function PageHeader() {
     </Visibility >
   );
 };
-
-export default PageHeader;

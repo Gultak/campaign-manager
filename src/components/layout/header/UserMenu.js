@@ -1,30 +1,30 @@
 import React, { useContext, useState } from 'react';
 import * as catalog from "../../../pages"
-import { Popup, Menu, Image, Divider } from 'semantic-ui-react';
+import { Popup, Menu, Divider } from 'semantic-ui-react';
 import { LanguageContext, UserContext, FirebaseContext } from '../../../constants/contexts';
 import { useHistory, useLocation } from 'react-router-dom';
-
+import { UserAvatar } from '../../user/UserAvatar';
 
 export function UserMenu({ menu }) {
-  const [logoutError, setLogoutError] = useState(null)
+  const [logoutError, setLogoutError] = useState(null);
 
-  const history = useHistory()
-  const location = useLocation()
-  const language = useContext(LanguageContext)
-  const user = useContext(UserContext)
-  const firebase = useContext(FirebaseContext)
+  const history = useHistory();
+  const location = useLocation();
+  const language = useContext(LanguageContext);
+  const user = useContext(UserContext);
+  const firebase = useContext(FirebaseContext);
 
   function signout() {
     firebase.doSignOut().then(() => {
-      setLogoutError(null)
+      setLogoutError(null);
       history.push(catalog.Landing.path);
     }).catch(error => setLogoutError(error?.message));
   }
 
-  return (<Popup key="loggedin" trigger={<Menu.Item position='right'><strong>{user?.user?.username}</strong> <Image
-    style={{ marginLeft: '0.5em', marginTop: '-0.5em', marginBottom: '-0.5em' }}
-    avatar src={user?.user?.avatar || ('https://eu.ui-avatars.com/api/?bold=true&name=' + user?.user?.username)} /></Menu.Item>} icon={null} pinned
-    position='bottom right' on='click' offset={-15}>
+  return (<Popup key="loggedin"
+    trigger={<Menu.Item position='right'>
+      <strong>{user?.user?.username}</strong><UserAvatar uid={user.uid} avatar style={{ marginLeft: '0.5em', marginTop: '-0.5em', marginBottom: '-0.5em' }} />
+    </Menu.Item>} icon={null} pinned position='bottom right' on='click' offset={-15}>
     <Popup.Content>
       <Menu text vertical>
         {menu.map(item => <Menu.Item key={item.id} icon={item.icon} onClick={() => history.push(item.path)}

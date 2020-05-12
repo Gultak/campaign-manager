@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import * as items from "../components/characters";
 import * as ROLE from "../constants/roles"
+import { LanguageContext } from '../constants/contexts';
+import { PageContent } from "../components/layout/PageContent";
 
-export const Landing = () => (
-  <div>
-    <h1>Landing</h1>
-  </div>
-);
+export function Landing() {
+  const language = useContext(LanguageContext);
+  const title = language.translate('titleLanding', 'Landing');
+
+  return (<PageContent title={title} items={items} />);
+}
 
 const Data = {
   id: 'landing',

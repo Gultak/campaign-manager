@@ -1,37 +1,27 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import * as catalog from "../../../pages"
 import { Popup, Menu, Divider, Input, Icon } from 'semantic-ui-react';
 import { LanguageContext, UserContext, FirebaseContext } from '../../../constants/contexts';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useForm } from '../../../tools/Hooks';
-
+import { useForm, useTimer } from '../../../tools/Hooks';
 
 export function LoginMenu({ menu }) {
-  const [loginError, setLoginError] = useState(null)
-  const [timerElapsed, setTimerElapsed] = useState(false)
+  const [loginError, setLoginError] = useState(null);
 
-  const history = useHistory()
-  const location = useLocation()
-  const language = useContext(LanguageContext)
-  const user = useContext(UserContext)
-  const firebase = useContext(FirebaseContext)
+  const history = useHistory();
+  const location = useLocation();
+  const language = useContext(LanguageContext);
+  const user = useContext(UserContext);
+  const firebase = useContext(FirebaseContext);
+  const timerElapsed = useTimer(2000);
 
   const { data, handleInputChange, handleSubmit } = useForm(signin);
 
-  useEffect(() => {
-    if (!timerElapsed) {
-      const timer = setTimeout(() => {
-        setTimerElapsed(true)
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [timerElapsed])
-
-  const openLogin = timerElapsed && !user?.authenticated && location?.pathname !== catalog.SignUp.path
+  const openLogin = timerElapsed && !user?.authenticated && location?.pathname !== catalog.SignUp.path;
 
   function signin() {
     firebase.doLoginUser(data.email, data.password).then(() => {
-      setLoginError(null)
+      setLoginError(null);
       history.push(catalog.Home.path);
     }).catch(error => setLoginError(error?.message));
   }

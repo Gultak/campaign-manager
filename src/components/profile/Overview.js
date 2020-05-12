@@ -1,46 +1,34 @@
 import React, { useContext } from 'react';
-import { Segment, Card, Image, Grid } from 'semantic-ui-react';
-import { UserContext, LanguageContext } from '../../constants/contexts';
+import { Segment, Grid } from 'semantic-ui-react';
+import { UserContext } from '../../constants/contexts';
+import { UserCard } from '../user/UserCard';
+import { UserDetails } from '../user/UserDetails';
 
 export function Overview() {
-  const user = useContext(UserContext)
-  const language = useContext(LanguageContext)
+  const user = useContext(UserContext);
 
-  return (
+  return (<>
     <Segment textAlign='left' user={user}>
       <Grid columns={3} relaxed='very' stackable>
         <Grid.Row stretched>
           <Grid.Column stretched>
-            <Card fluid>
-              <Image src={user.user.photoURL || 'https://eu.ui-avatars.com/api/?size=512&bold=true&name=' + user.user.username} wrapped ui={false} />
-              <Card.Content>
-                <Card.Header>{user.user.username}</Card.Header>
-                <Card.Meta>{language.translate('labelJoined', 'Joined on:')} {'' + user.user.registeredAt.toDate()}</Card.Meta>          <div>TEXT</div>
-              </Card.Content>
-            </Card>
+            <UserCard />
           </Grid.Column>
-          <Grid.Column stretched>
-          </Grid.Column>
-          <Grid.Column stretched>
-            <Card fluid>
-              <Image src={user.user.photoURL || 'https://eu.ui-avatars.com/api/?size=512&bold=true&name=' + user.user.username} wrapped ui={false} />
-              <Card.Content>
-                <Card.Header>{user.user.username}</Card.Header>
-                <Card.Meta>{language.translate('labelJoined', 'Joined on:')} {'' + user.user.registeredAt.toDate()}</Card.Meta>          <div>TEXT</div>
-              </Card.Content>
-            </Card>
+          <Grid.Column stretched colSpan="2">
+            <UserDetails />
           </Grid.Column>
         </Grid.Row>
       </Grid>
     </Segment >
-  );
+  </>);
 }
 
 const Data = {
   id: 'overview',
   lang: 'profile-overview',
   name: 'Overview',
-  comp: <Overview />
+  comp: <Overview />,
+  sort: 1
 };
 
 export default Data;

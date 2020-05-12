@@ -26,10 +26,15 @@ export default class Firebase {
   doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
   doPasswordUpdate = password => this.auth.currentUser.updatePassword(password);
 
+  store = () => this.store;
+
+  users = () => this.store.collection('users');
+  characters = () => this.store.collection('characters');
+  campaigns = () => this.store.collection('campaigns');
 
   user = uid => this.users().doc(uid);
-  users = () => this.store.collection('users');
-
+  character = uid => this.characters().doc(uid);
+  cmpaign = uid => this.campaigns().doc(uid);
 
   timestamp = () => app.firestore.FieldValue.serverTimestamp();
 }

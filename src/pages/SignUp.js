@@ -7,9 +7,9 @@ import { useForm } from '../tools/Hooks';
 import { useHistory } from 'react-router-dom';
 
 export function SignUp() {
-  const history = useHistory()
-  const language = useContext(LanguageContext)
-  const firebase = useContext(FirebaseContext)
+  const history = useHistory();
+  const language = useContext(LanguageContext);
+  const firebase = useContext(FirebaseContext);
   const { data, handleInputChange, handleSubmit } = useForm(signup);
 
   const userError = !(data?.username || '').trim() && language.translate('errorUsername', 'Please enter a valid user name!');

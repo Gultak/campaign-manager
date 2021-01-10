@@ -9,9 +9,10 @@ import { ContentFooter } from '../layout/ContentFooter'
 
 const EMPTY_USER = {
   authUser: null,
-  auser: null,
-  authenticated: false,
-  roles: [ROLE.NONE]
+  user: {
+    roles: [ROLE.NONE]
+  },
+  authenticated: false
 }
 
 function Viewport() {
@@ -32,41 +33,51 @@ function Viewport() {
   const firebase = useContext(FirebaseContext);
 
   const [user, setUser] = useState(EMPTY_USER);
+  const [firebaseUser, setFirebaseUser] = useState(null);
 
   useEffect(() => {
-    return firebase.auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        firebase.user(authUser.uid).get().then((userData) => {
-          const data = {
-            ...{
-              username: authUser.displayName || authUser.email,
-              email: authUser.email,
-              photoURL: authUser.photoURL,
-              avatar: null,
-              roles: [ROLE.REGISTERED],
-              registeredAt: firebase.timestamp()
-            },
-            ...(userData.exists ? userData.data() : {}),
-            ...{
-              lastLogin: firebase.timestamp()
-            }
-          };
-          setUser({
-            authUser: authUser,
-            authenticated: true,
-            verified: authUser.emailVerified,
-            phone: authUser.phoneNumber,
-            uid: authUser.uid,
-            user: data,
-            roles: data.roles
-          });
-          firebase.user(authUser.uid).set(data);
-        }).catch((error) => alert("Error loading user data:" + error))
-      } else {
-        setUser(EMPTY_USER);
-      }
-    })
+    return firebase.auth.onAuthStateChanged((firebaseUser) => {
+      setFirebaseUser(firebaseUser);
+    });
   }, [firebase, firebase.auth])
+
+  useEffect(() => {
+    const user = firebaseUser && firebase.user(firebaseUser.uid);
+    if (user) {
+      user.get().then((userData) => {
+        const data = {
+          ...{
+            username: firebaseUser.displayName || firebaseUser.email,
+            email: firebaseUser.email,
+            avatarURL: firebaseUser.photoURL,
+            phone: firebaseUser.phoneNumber,
+            verified: firebaseUser.emailVerified,
+            provider: firebaseUser.providerData[0].providerId,
+            roles: [ROLE.REGISTERED],
+            registeredAt: firebase.timestamp(),
+          },
+          ...(userData.exists ? userData.data() : {}),
+          ...{
+            lastLogin: firebase.timestamp(),
+            verified: firebaseUser.emailVerified
+          }
+        };
+        const callback = user.onSnapshot(snap => {
+          const data = snap.data();
+          setUser({
+            authUser: firebaseUser,
+            authenticated: true,
+            uid: firebaseUser.uid,
+            user: data
+          });
+        });
+        user.set(data);
+        return callback;
+      }).catch((error) => alert("Error loading user data:" + error));
+    } else {
+      setUser(EMPTY_USER);
+    }
+  }, [firebase, firebaseUser]);
 
   return (
     <UserContext.Provider value={user}>

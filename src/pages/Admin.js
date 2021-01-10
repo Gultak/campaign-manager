@@ -29,7 +29,6 @@ const Data = {
   lang: 'admin',
   path: '/admin',
   name: 'Admin',
-  menu: true,
   comp: <Admin />,
   role: ROLE.ADMIN,
   sort: 999

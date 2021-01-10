@@ -7,7 +7,7 @@ export function LanguageSelector() {
   const language = useContext(LanguageContext);
 
   return (
-    <Dropdown trigger={<Flag name={languages.items[language.language].flag} style={{ marginRight: '0.75em' }} />} icon={null} pointing='top right'>
+    <Dropdown trigger={<Flag name={languages.items[language.language].flag} className='header-flag' />} icon={null} pointing='top right'>
       <Dropdown.Menu>
         {Object.keys(languages.items).map(lang =>
           <Dropdown.Item key={lang} active={lang === language.language} disabled={languages.items[lang].disabled} onClick={() => language.switchLanguage(lang)}>

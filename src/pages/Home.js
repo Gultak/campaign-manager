@@ -16,7 +16,6 @@ const Data = {
   lang: 'home',
   path: '/home',
   name: 'Home',
-  menu: true,
   comp: <Home />,
   role: ROLE.REGISTERED,
   sort: 1

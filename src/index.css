@@ -9,5 +9,108 @@ body {
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    monos
+}
+
+pre {
+  margin: 0em;
+}
+
+.main-content {
+   padding: 2em 0em !important;
+  min-height: 100vh !important;
+}
+
+.header-flag {
+  margin-right: 0.75em !important;
+}
+
+.login-menu {
+  margin-top: -0.2em !important;
+  margin-bottom: -0.2em !important;
+}
+
+.user-menu {
+   margin-left: 0.5em !important;
+   margin-top: -0.5em !important;
+   margin-bottom: -0.5em !important;
+}
+
+.overflow-x {
+  overflow-x: auto;
+}
+
+.overlay {
+  z-index: 999;
+}
+
+.fa, .fas {
+    font-weight: 900 !important;
+}
+
+.fa, .far, .fas {
+    font-family: "Font Awesome 5 Free" !important;
+}
+
+span.text-overflow {
+  text-overflow: ellipsis;
+  overflow: hidden !important;
+  display: inline-block !important;
+  vertical-align: text-bottom !important;
+}
+
+div.relative {
+  position: relative;
+}
+
+.ui.segment.no-overflow {
+  overflow-y: hidden !important;
+  overflow-x: hidden !important;
+}
+
+.ui.segment.mini {
+  padding: 0.5em 1.25em;
+}
+
+.ui.segment.content-header.fixed {
+  padding-top: 0;
+}
+
+.ui.segment.dimmed {
+  color: grey;
+}
+
+.ui.attached.left.rail.padded, .ui.attached.right.rail.padded {
+  padding: 0.5em;
+}
+
+.ui.placeholder.padded {
+  margin: 1em;
+}
+
+.ui.menu .item.narrow {
+   padding-left: 0em !important;
+   padding-right: 0em !important;
+}
+@media only screen and (max-width: 767px) {
+  .ui.menu .item.narrow  {
+    padding-left: 1.14286em!important;
+  }
+}
+
+.ui.grid>.row.narrow {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+.ui.popup.simple {
+  padding: 0;
+}
+
+.ui.corner.label .icon {
+  cursor: inherit;
+}
+
+.ui[class*="very basic"].table:not(.sortable):not(.striped) td, .ui[class*="very basic"].table:not(.sortable):not(.striped) th {
+    padding: 0;
 }

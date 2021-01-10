@@ -2,16 +2,45 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // This rule allows anyone on the internet to view, edit, and delete
-    // all data in your Firestore database. It is useful for getting
-    // started, but it is configured to expire after 30 days because it
-    // leaves your app open to attackers. At that time, all client
-    // requests to your Firestore database will be denied.
-    //
-    // Make sure to write security rules for your app before that time, or else
-    // your app will lose access to your Firestore database
-    match /{document=**} {
-      allow read, write: if request.time < timestamp.date(2020, 5, 27);
+    // Admin access: allow read, update, delete to everything.
+		match /{document=**} {
+      allow read, write: if 'admin' in
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.roles;
     }
+
+		// RULE for users:
+    // - only the user itself may create user data.
+    // - all registered users may read user data.
+    // - only the user itself may write and delete user data.
+    match /users/{userId} {
+    	allow create: if request.auth.uid == request.resource.id;
+    	allow read: if exists(/databases/$(database)/documents/users/$(request.auth.uid));
+      allow update, delete: if request.auth.uid == userId;
+    }
+
+		// RULE for characters:
+    // - only the owner may create character data.
+    // - all registered users may read character data.
+    // - only the owner may write and delete character data.
+    match /characters/{charId} {
+    	allow create: if request.resource.data.owner
+      	== /databases/$(database)/documents/users/$(request.auth.uid);
+    	allow read: if exists(/databases/$(database)/documents/users/$(request.auth.uid));
+      allow update, delete: if resource.data.owner
+      	== /databases/$(database)/documents/users/$(request.auth.uid);
+    }
+    
+		// RULE for campaigns:
+    // - only the owner may create campaign data.
+    // - all registered users may read campaign data.
+    // - only the owner may write and delete campaign data.
+    match /campaigns/{campId} {
+    	allow create: if request.resource.data.owner
+      	== /databases/$(database)/documents/users/$(request.auth.uid);
+    	allow read: if exists(/databases/$(database)/documents/users/$(request.auth.uid));
+      allow update, delete: if resource.data.owner
+      	== /databases/$(database)/documents/users/$(request.auth.uid);
+    }
+    
   }
 }

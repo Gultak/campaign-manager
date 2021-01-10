@@ -1,25 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
-import * as ROLE from "../../constants/roles"
-import { Label, Table, Header, Segment, Icon, Message, Input, Form, Dropdown } from 'semantic-ui-react';
+import { Label, Table, Segment, Icon, Message, Input, Form, Rail } from 'semantic-ui-react';
 import { LanguageContext, FirebaseContext, UserContext } from '../../constants/contexts';
 import { useForm } from '../../tools/Hooks';
 import { UserAvatar } from '../user/UserAvatar';
-
-function UserRoles({ roles, edit, onChange }) {
-  const language = useContext(LanguageContext);
-
-  return edit
-    ? <Dropdown placeholder={language.translate('labelRoles', 'Roles')} multiple selection name='roles' value={roles}
-      onChange={(event, input) => {
-        event.target = input;
-        onChange(event);
-      }} options={
-        Object.values(ROLE).filter(role => role !== ROLE.NONE).map(role => {
-          return { key: role, text: language.translate(`role${role}`, role), value: role };
-        })
-      } />
-    : (roles || []).map(role => <Label key={role}>{language.translate(`role${role}`, role)}</Label>);
-}
+import { UserOverview } from '../user/UserOverview';
+import { UserRoles } from '../user/UserRoles';
 
 export function Users() {
   const language = useContext(LanguageContext);
@@ -28,6 +13,7 @@ export function Users() {
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
+  const [selected, setSelected] = useState(user.uid);
   const { handleInputChange, handleSubmit, data, setData } = useForm(commitEdit);
 
   useEffect(() => {
@@ -42,7 +28,7 @@ export function Users() {
       });
       setUsers(users);
       setLoading(false);
-    });
+    }, error => setError(error));
   }, [firebase]);
 
   function updateHover(uid, state) {
@@ -92,7 +78,7 @@ export function Users() {
           <Table selectable basic='very'>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>{language.translate('labelUsername', 'User name')}</Table.HeaderCell>
+                <Table.HeaderCell>{language.translate('labelUsername', 'Username')}</Table.HeaderCell>
                 <Table.HeaderCell>{language.translate('labelEmail', 'E-mail address')}</Table.HeaderCell>
                 <Table.HeaderCell>{language.translate('labelRoles', 'Roles')}</Table.HeaderCell>
                 <Table.HeaderCell />
@@ -102,18 +88,26 @@ export function Users() {
               {users.map(item => {
                 const editrow = data.editing && data.uid === item.uid;
                 return (
-                  <Table.Row active={user.uid === item.uid} key={item.uid} onMouseOver={() => updateHover(item.uid, true)} onMouseOut={() => updateHover(item.uid, false)}>
+                  <Table.Row active={item.uid === selected} key={item.uid}
+                    onMouseOver={() => updateHover(item.uid, true)} onMouseOut={() => updateHover(item.uid, false)}
+                    onClick={() => setSelected(item.uid)}>
                     <Table.Cell collapsing>
-                      <Label ribbon>
-                        <UserAvatar uid={user.uid} avatar dark />
-                        {editrow
-                          ? <Input name='username' value={data.username} onChange={handleInputChange} />
-                          : <>{item.username}</>}
-                      </Label>
+                      <Segment basic size='mini'>
+                        <Label ribbon>
+                          <UserAvatar uid={item.uid} avatar dark />
+                          {editrow
+                            ? <Input name='username' value={data.username} onChange={handleInputChange} />
+                            : <>{item.username}</>}
+                        </Label>
+                      </Segment>
                     </Table.Cell>
                     <Table.Cell>
-                      {item.email}
-                      <Header size='tiny' disabled textAlign='right' style={{ marginTop: '0em' }}>{item.uid}</Header>
+                      <Segment basic>
+                        {item.email}
+                        <Rail attached internal position='right'>
+                          <Segment basic textAlign='right' size='mini' className='dimmed no-overflow'><pre>ID: {item.uid}</pre></Segment>
+                        </Rail>
+                      </Segment>
                     </Table.Cell>
                     <Table.Cell collapsing>
                       <UserRoles roles={editrow ? data.roles : item.roles} edit={editrow} onChange={handleInputChange} />
@@ -137,6 +131,7 @@ export function Users() {
         </Form>
       </Segment>
       {error && <Message attached='bottom' error>{error}</Message>}
+      {selected && <UserOverview uid={selected} />}
     </>
   )
 }

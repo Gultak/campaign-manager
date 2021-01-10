@@ -1,14 +1,18 @@
-import React, { useContext } from 'react';
-import * as items from "../components/characters";
+import React from 'react';
 import * as ROLE from "../constants/roles"
-import { LanguageContext } from '../constants/contexts';
-import { PageContent } from "../components/layout/PageContent";
+import { CharacterOverview } from '../components/characters/CharacterOverview';
+import { CharacterView } from '../components/characters/CharacterView';
+import { Route, Switch } from 'react-router-dom';
+import { CharacterSheet } from '../components/characters/CharacterSheet';
 
 export function Characters() {
-  const language = useContext(LanguageContext);
-  const title = language.translate('titleCharacters', 'Characters');
-
-  return (<PageContent title={title} items={items} />);
+  return (
+    <Switch>
+      <Route path={`${Data.path}/:uid/sheet`} component={CharacterSheet} />
+      <Route path={`${Data.path}/:uid`} component={CharacterView} />
+      <Route component={CharacterOverview} />
+    </Switch>
+  );
 }
 
 const Data = {
@@ -16,7 +20,6 @@ const Data = {
   lang: 'characters',
   path: '/characters',
   name: 'Characters',
-  menu: true,
   comp: <Characters />,
   role: ROLE.APPROVED,
   sort: 10

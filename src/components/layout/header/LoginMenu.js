@@ -1,23 +1,19 @@
 import React, { useContext, useState } from 'react';
 import * as catalog from "../../../pages"
 import { Popup, Menu, Divider, Input, Icon } from 'semantic-ui-react';
-import { LanguageContext, UserContext, FirebaseContext } from '../../../constants/contexts';
-import { useHistory, useLocation } from 'react-router-dom';
-import { useForm, useTimer } from '../../../tools/Hooks';
+import { LanguageContext, FirebaseContext } from '../../../constants/contexts';
+import { useHistory } from 'react-router-dom';
+import { useForm } from '../../../tools/Hooks';
+
 
 export function LoginMenu({ menu }) {
   const [loginError, setLoginError] = useState(null);
 
   const history = useHistory();
-  const location = useLocation();
   const language = useContext(LanguageContext);
-  const user = useContext(UserContext);
   const firebase = useContext(FirebaseContext);
-  const timerElapsed = useTimer(2000);
 
   const { data, handleInputChange, handleSubmit } = useForm(signin);
-
-  const openLogin = timerElapsed && !user?.authenticated && location?.pathname !== catalog.SignUp.path;
 
   function signin() {
     firebase.doLoginUser(data.email, data.password).then(() => {
@@ -30,9 +26,8 @@ export function LoginMenu({ menu }) {
     event && event.key === 'Enter' && signin();
   }
 
-  return (<Popup key="loggedout" trigger={<Menu.Item position='right'><Icon name='user outline' size='large'
-    style={{ marginTop: '-0.2em', marginBottom: '-0.2em' }} /></Menu.Item>} icon={null} pinned
-    position='bottom right' open={openLogin || undefined} on='click' offset={-18}>
+  return (<Popup key="loggedout" trigger={<Menu.Item position='right'><Icon name='user outline' size='large' className='login-menu' /></Menu.Item>}
+    icon={null} pinned position='bottom right' on='click' offset={-18}>
     <Popup.Content>
       <Menu compact text vertical>
         <Divider content={language.translate('menuLogin', 'Login')} horizontal />
@@ -46,11 +41,6 @@ export function LoginMenu({ menu }) {
           <Popup.Header>Error</Popup.Header>
           <Popup.Content>{loginError}</Popup.Content>
         </Popup>
-        <Divider fitted />
-        <Menu.Item icon='google' content={language.translate('menuGoogle', 'Sign In with Google')} />
-        <Menu.Item icon='facebook' content={language.translate('menuFacebook', 'Sign In with Facebook')} />
-        <Divider fitted />
-        <Menu.Item icon='user plus' content={language.translate('menuCreateAccount', 'Create Account')} onClick={() => history.push(catalog.SignUp.path)} />
       </Menu></Popup.Content>
   </Popup>);
 }

@@ -16,7 +16,6 @@ const Data = {
   lang: 'profile',
   path: '/profile',
   name: 'Profile',
-  menu: true,
   comp: <Profile />,
   role: ROLE.APPROVED,
   sort: 100

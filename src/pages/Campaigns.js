@@ -1,14 +1,18 @@
-import React, { useContext } from 'react';
-import * as items from "../components/characters";
+import React from 'react';
 import * as ROLE from "../constants/roles"
-import { LanguageContext } from '../constants/contexts';
-import { PageContent } from "../components/layout/PageContent";
+import { CampaignOverview } from '../components/campaigns/CampaignOverview';
+import { CampaignView } from '../components/campaigns/CampaignView';
+import { CampaignSheet } from '../components/campaigns/CampaignSheet';
+import { Switch, Route } from 'react-router-dom';
 
 export function Campaigns() {
-  const language = useContext(LanguageContext);
-  const title = language.translate('titleCampaigns', 'Campaigns');
-
-  return (<PageContent title={title} items={items} />);
+  return (
+    <Switch>
+      <Route path={`${Data.path}/:uid/sheet`} component={CampaignSheet} />
+      <Route path={`${Data.path}/:uid`} component={CampaignView} />
+      <Route component={CampaignOverview} />
+    </Switch>
+  );
 }
 
 const Data = {
@@ -16,7 +20,6 @@ const Data = {
   lang: 'campaigns',
   path: '/campaigns',
   name: 'Campaigns',
-  menu: true,
   comp: <Campaigns />,
   role: ROLE.GAMEMASTER,
   sort: 20

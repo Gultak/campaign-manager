@@ -1,14 +1,19 @@
 import React, { useContext } from 'react';
-import * as items from "../components/characters";
 import * as ROLE from "../constants/roles"
-import { LanguageContext } from '../constants/contexts';
-import { PageContent } from "../components/layout/PageContent";
+import * as catalog from "../pages"
+import { Segment, Header } from 'semantic-ui-react';
+import { LanguageContext, FirebaseContext } from '../constants/contexts';
+import FirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 export function Landing() {
   const language = useContext(LanguageContext);
-  const title = language.translate('titleLanding', 'Landing');
+  const firebase = useContext(FirebaseContext);
 
-  return (<PageContent title={title} items={items} />);
+  return (<Segment secondary textAlign='center'>
+    <Header as='h2'>{language.translate('titleLogin', 'Please Sign in')}</Header>
+    <FirebaseAuth uiConfig={{ ...firebase.uiConfig(), signInSuccessUrl: catalog.Home.path }} firebaseAuth={firebase.auth} />
+  </Segment>
+  );
 }
 
 const Data = {
@@ -16,7 +21,6 @@ const Data = {
   lang: 'landing',
   path: '/landing',
   name: 'Landing',
-  menu: true,
   comp: <Landing />,
   role: ROLE.NONE,
   sort: 0

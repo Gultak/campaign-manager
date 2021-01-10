@@ -5,6 +5,7 @@ import { LanguageContext, UserContext, FirebaseContext } from '../../../constant
 import { useHistory, useLocation } from 'react-router-dom';
 import { UserAvatar } from '../../user/UserAvatar';
 
+
 export function UserMenu({ menu }) {
   const [logoutError, setLogoutError] = useState(null);
 
@@ -21,21 +22,23 @@ export function UserMenu({ menu }) {
     }).catch(error => setLogoutError(error?.message));
   }
 
-  return (<Popup key="loggedin"
-    trigger={<Menu.Item position='right'>
-      <strong>{user?.user?.username}</strong><UserAvatar uid={user.uid} avatar style={{ marginLeft: '0.5em', marginTop: '-0.5em', marginBottom: '-0.5em' }} />
-    </Menu.Item>} icon={null} pinned position='bottom right' on='click' offset={-15}>
-    <Popup.Content>
-      <Menu text vertical>
-        {menu.map(item => <Menu.Item key={item.id} icon={item.icon} onClick={() => history.push(item.path)}
-          active={item.path === location.pathname}>{language.translate(item.lang, item.name)}</Menu.Item>)}
-        <Divider fitted />
-        <Popup key={logoutError} position='left center' open={logoutError} trigger={
-          <Menu.Item icon='sign-out' content={language.translate('menuLogout', 'Logout')} onClick={signout} />}>
-          <Popup.Header>Error</Popup.Header>
-          <Popup.Content>{logoutError}</Popup.Content>
-        </Popup>
-      </Menu>
-    </Popup.Content>
-  </Popup>);
+  return (<Menu.Item as='a' position='right'><strong>{user?.user?.username}</strong>
+    <Popup key="loggedin"
+      trigger={
+        <UserAvatar uid={user.uid} avatar className='user-menu' />
+      } icon={null} pinned position='bottom right' on='click' offset={5}>
+      <Popup.Content>
+        <Menu text vertical>
+          {menu.map(item => <Menu.Item key={item.id} icon={item.icon} onClick={() => history.push(item.path)}
+            active={item.path === location.pathname}>{language.translate(item.lang, item.name)}</Menu.Item>)}
+          <Divider fitted />
+          <Popup key={logoutError} position='left center' open={logoutError} trigger={
+            <Menu.Item icon='sign-out' content={language.translate('menuLogout', 'Logout')} onClick={signout} />}>
+            <Popup.Header>Error</Popup.Header>
+            <Popup.Content>{logoutError}</Popup.Content>
+          </Popup>
+        </Menu>
+      </Popup.Content>
+    </Popup>
+  </Menu.Item>);
 }

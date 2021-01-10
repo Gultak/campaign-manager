@@ -1,6 +1,7 @@
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import * as firebaseui from 'firebaseui';
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -19,6 +20,18 @@ export default class Firebase {
   }
 
   // *** Auth API ***
+  uiConfig = () => {
+    return {
+      // signInFlow: 'popup',
+      signInSuccessUrl: '/',
+      credentialHelper: firebaseui.auth.CredentialHelper.NONE,
+      signInOptions: [
+        app.auth.EmailAuthProvider.PROVIDER_ID,
+        app.auth.GoogleAuthProvider.PROVIDER_ID,
+        app.auth.FacebookAuthProvider.PROVIDER_ID,
+      ]
+    };
+  }
 
   doCreateUser = (email, password) => this.auth.createUserWithEmailAndPassword(email, password);
   doLoginUser = (email, password) => this.auth.signInWithEmailAndPassword(email, password);
@@ -34,7 +47,7 @@ export default class Firebase {
 
   user = uid => this.users().doc(uid);
   character = uid => this.characters().doc(uid);
-  cmpaign = uid => this.campaigns().doc(uid);
+  campaign = uid => this.campaigns().doc(uid);
 
   timestamp = () => app.firestore.FieldValue.serverTimestamp();
 }

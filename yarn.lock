@@ -3856,10 +3856,10 @@ babel-plugin-transform-react-remove-prop-types@^0.4.24:
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-react-remove-prop-types/-/babel-plugin-transform-react-remove-prop-types-0.4.24.tgz#f2edaf9b4c6a5fbe5c1d678bfb531078c1555f3a"
   integrity sha512-eqj0hVcJUR57/Ug2zE1Yswsw4LhuqqHhD+8v120T1cl3kjg76QwtyBrdIk4WVwK+lAhBJVYCd/v+4nc4y+8JsA==
 
-babel-plugin-wildcard@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-wildcard/-/babel-plugin-wildcard-6.0.0.tgz#f6ff5db05719964d8ea7fd7eedc28057ccdb4baa"
-  integrity sha512-qtvUUPBvTMQ7z5HQqH8xDmpXUmteSkAhpbgvAdwIvh4LdSih8xlc9QNB7ntLc9SI2sF9gHjVzBrS6qx3G6oLMg==
+babel-plugin-wildcard@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-wildcard/-/babel-plugin-wildcard-7.0.0.tgz#ad72322e6b794717eeb616f8966c17ec1e431bfb"
+  integrity sha512-3duaRaULzxmmgr+YO9EPEE3m/irVyOWKvXCOz2S41tlp0g2UarSEtpM++D3IS+asK205OOqW1ajnjFeoRRqfZg==
   dependencies:
     rimraf "^2.6.2"
 

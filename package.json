@@ -9,7 +9,7 @@
     "babel-plugin-wildcard": "^7.0.0",
     "faker": "^4.1.0",
     "firebase": "^10.12.1",
-    "firebase-tools": "^13.10.1",
+    "firebase-tools": "^13.10.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-firebaseui": "^6.0.0",

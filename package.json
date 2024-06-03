@@ -7,7 +7,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^14.5.2",
     "babel-plugin-wildcard": "^7.0.0",
-    "faker": "^4.1.0",
+    "faker": "^6.6.6",
     "firebase": "^10.12.1",
     "firebase-tools": "^13.10.1",
     "react": "^16.13.1",

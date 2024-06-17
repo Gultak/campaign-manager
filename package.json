@@ -10,7 +10,7 @@
     "firebase": "^10.12.2",
     "firebase-tools": "^13.11.2",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react-dom": "^16.14.0",
     "react-firebaseui": "^6.0.0",
     "react-router-dom": "^6.23.1",
     "react-scripts": "5.0.1",

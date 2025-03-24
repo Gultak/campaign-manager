@@ -8,7 +8,7 @@
     "@testing-library/user-event": "^14.6.1",
     "babel-plugin-wildcard": "^7.0.0",
     "firebase": "^11.5.0",
-    "firebase-tools": "^13.34.0",
+    "firebase-tools": "^13.35.1",
     "react": "^16.13.1",
     "react-dom": "^16.14.0",
     "react-firebaseui": "^6.0.0",
